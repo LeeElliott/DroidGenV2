@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class ControllerScript : MonoBehaviour
 {
+    // Object Declarations
     public GameObject terrainObject;
     public GameObject waterObject;
     public GameObject playerObject;
 
-    private int[] enemyData = new int[120];
+    public GameObject EnemyLocations;
+    public GameObject SmallObjectLocations;
+    public GameObject LargeObjectLocations;
+
+    public Transform EnemyMarker;
+    public Transform SmallMarker;
+    public Transform LargeMarker;
+
+    // User interface elements
+    public GameObject InfoPanel;
+
+    private float averageHeight;
 
 	// Use this for initialization
 	void Start()
     {
-		
+        ClosePanel();
 	}
 	
 	// Update is called once per frame
@@ -21,6 +33,11 @@ public class ControllerScript : MonoBehaviour
     {
 		
 	}
+    
+    public void ClosePanel()
+    {
+        InfoPanel.gameObject.SetActive(false);
+    }
 
     public void GenerateLevel()
     {
@@ -29,19 +46,34 @@ public class ControllerScript : MonoBehaviour
         float[] displaceMap = new float[width * height];
         int[] areaMap = new int[width * height];
 
+        // Clear object lists
+        foreach (Transform child in EnemyLocations.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        foreach (Transform child in SmallObjectLocations.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        foreach (Transform child in LargeObjectLocations.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        
         // Perlin Noise
         PerlinNoise(displaceMap, width, height);
 
         // Random Walk
         RandomWalk(areaMap);
 
-        // Location Generation
-        SmallObjects();
-        LargeObjects();
-        EnemyLocations(areaMap, width, height, enemyData);
-
         // Combination
         MapCombination(displaceMap, areaMap, width, height);
+
+        // Location Generation
+        SmallObjects(areaMap, width, height);
+        LargeObjects();
+        GenerateEnemyLocations(areaMap, width, height);
+        GeneratePlayerLocation(areaMap, width, height);
     }
 
     void PerlinNoise(float[] dM, int w, int h)
@@ -228,19 +260,8 @@ public class ControllerScript : MonoBehaviour
 	    }
      }
 
-    void SmallObjects()
+    void SmallObjects(int[] aM, int w, int h)
     {
-
-    }
-
-    void LargeObjects()
-    {
-
-    }
-
-    void EnemyLocations(int[] aM, int w, int h, int[] eData)
-    {
-        int counter = 0;
         System.Random rand = new System.Random();
         int eCount = rand.Next(30, 60);
 
@@ -262,22 +283,103 @@ public class ControllerScript : MonoBehaviour
                     siteChosen = true;
 
                     // Place holder goes here
-                   // MarkArea(map, w, h, x, y, 8, 8, -3);
+                    //MarkArea(aM, w, h, x, y, 8, 8, -4);
+                    aM[y * w + x] = -4;
 
-                    eData[counter] = x;
-                    eData[counter + 1] = y;
-                    counter += 2;
+                    Vector3 ePosition = new Vector3(-125 + x, 1 + 25 * (averageHeight * 0.9f), -125 + y);
+
+                    Transform sMarker = SmallMarker;
+                    Instantiate(sMarker, ePosition, Quaternion.identity, SmallObjectLocations.transform);
+                    sMarker.GetComponent<MarkerScript>().SetPanel(InfoPanel, 0);
                 }
             }
         }
     }
 
+    void LargeObjects()
+    {
+
+    }
+
+    void GenerateEnemyLocations(int[] aM, int w, int h)
+    {
+        System.Random rand = new System.Random();
+        int eCount = rand.Next(30, 60);
+
+        // Loop until all enemy locations placed
+        for (int k = 0; k < eCount; k++)
+        {
+            bool siteChosen = false;
+            // Loop until enemy is successfully positioned
+            while (!siteChosen)
+            {
+                // Pseudo-random coordinates
+                int x = rand.Next(0, w);
+                int y = rand.Next(0, h);
+
+                // Check that location is within walkable area
+                if (aM[y * w + x] == 0)
+                {
+                    // Accept as successful may require additional checks
+                    siteChosen = true;
+
+                    // Place holder goes here
+                    //MarkArea(aM, w, h, x, y, 8, 8, -3);
+                    aM[y * w + x] = -3;
+
+                    Vector3 ePosition = new Vector3(-125 + x, 1 + 25 * (averageHeight * 0.9f), -125 + y);
+
+                    Transform eMarker = EnemyMarker;
+                    Instantiate(eMarker, ePosition, Quaternion.identity, EnemyLocations.transform);
+                    eMarker.GetComponent<MarkerScript>().SetPanel(InfoPanel, 1);
+                }
+            }
+        }
+    }
+
+    void GeneratePlayerLocation(int[] aM, int w, int h)
+    {
+        System.Random rand = new System.Random();
+        bool siteChosen = false;
+        // Loop until enemy is successfully positioned
+        while (!siteChosen)
+        {
+            // Pseudo-random coordinates
+            int x = rand.Next(0, w);
+            int y = rand.Next(0, h);
+
+            // Check that location is within walkable area
+            if (aM[y * w + x] == 0)
+            {
+                // Accept as successful may require additional checks
+                siteChosen = true;
+
+                // Place holder goes here
+                //MarkArea(aM, w, h, x, y, 8, 8, -3);
+                aM[y * w + x] = -5;
+
+                Vector3 pPosition = new Vector3(-125 + x, 1 + 25 * (averageHeight * 0.9f), -125 + y);
+                playerObject.transform.position = pPosition;
+            }
+        }        
+    }
+
+    void MarkArea(int[] map, int tw, int th, int x, int y, int w, int h, int v)
+    {
+    	 for (int j = 0; j<h; j++)
+    	 {
+    		 for (int i = 0; i<w; i++)
+    		 {
+    			 map[(y - (h / 2) + j) * tw + (x - (w / 2) + i)] = v;
+    		 }
+    	 }
+    }
+       
     void MapCombination(float[] dM, int[] aM, int w, int h)
     {
         // Get average height
 
         int counter = 0;
-        float averageHeight = 0;
         float waterHeight = 0;
 
         for (int j = 0; j < h; j++)
@@ -303,11 +405,6 @@ public class ControllerScript : MonoBehaviour
                 }
             }
         }
-
-        // Set y value of player position
-        Vector3 playerPosition = playerObject.transform.position;
-        playerPosition.y = 1 + 25 * (averageHeight * 0.9f);
-        playerObject.transform.position = playerPosition;
 
         // Calculate water level
         waterHeight = averageHeight * 0.7f;
@@ -366,8 +463,7 @@ public class ControllerScript : MonoBehaviour
         terrainObject.GetComponent<MeshCollider>().sharedMesh = mf.mesh;
 
         // Set water height
-        Vector3 waterPosition = playerObject.transform.position;
-        waterPosition.y = 1 + 25 * waterHeight;
+        Vector3 waterPosition = new Vector3(0, 1 + 25 * waterHeight, 0);
         waterObject.transform.position = waterPosition;
     }
 }

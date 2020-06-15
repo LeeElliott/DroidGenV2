@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - InfoPanel
+  - TypeBox
+  - PositionBox
+  - RotationBox
+  - ContentsBox
   layers:
   - Default
   - TransparentFX
