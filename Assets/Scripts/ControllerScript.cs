@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ControllerScript : MonoBehaviour
 {
@@ -18,7 +20,10 @@ public class ControllerScript : MonoBehaviour
     public Transform LargeMarker;
 
     // User interface elements
-    public GameObject InfoPanel;
+    public GameObject infoPanel;
+    public GameObject arrow;
+    public int wtf;
+    public GameObject timeText;
 
     private float averageHeight;
 
@@ -36,7 +41,8 @@ public class ControllerScript : MonoBehaviour
     
     public void ClosePanel()
     {
-        InfoPanel.gameObject.SetActive(false);
+        infoPanel.gameObject.SetActive(false);
+        arrow.gameObject.SetActive(false);
     }
 
     public void GenerateLevel()
@@ -45,6 +51,8 @@ public class ControllerScript : MonoBehaviour
         int height = 250;
         float[] displaceMap = new float[width * height];
         int[] areaMap = new int[width * height];
+
+        int startTime = Environment.TickCount & Int32.MaxValue;
 
         // Clear object lists
         foreach (Transform child in EnemyLocations.transform)
@@ -74,6 +82,13 @@ public class ControllerScript : MonoBehaviour
         LargeObjects();
         GenerateEnemyLocations(areaMap, width, height);
         GeneratePlayerLocation(areaMap, width, height);
+
+
+        int endTime = Environment.TickCount & Int32.MaxValue;
+
+        // Calculate time taken and set text element
+        int timeTaken = endTime - startTime;
+        timeText.GetComponentInChildren<Text>().text = "Gen Time: " + timeTaken.ToString() + "ms";
     }
 
     void PerlinNoise(float[] dM, int w, int h)
@@ -163,6 +178,16 @@ public class ControllerScript : MonoBehaviour
                 dM[y * w + x] *= noise / scaleAcc;
             }
         }
+
+        /*Perlin p = gameObject.GetComponent<Perlin>();
+        for (int y = 0; y < w; y++)
+        {
+            for (int x = 0; x < h; x++)
+            {
+                double z = 1;
+                dM[y * w + x] = (float)p.OctavePerlin(x, y, z, 8, 1);
+            }
+        }*/
     }
 
     void RandomWalk(int[] aM)
@@ -290,7 +315,8 @@ public class ControllerScript : MonoBehaviour
 
                     Transform sMarker = SmallMarker;
                     Instantiate(sMarker, ePosition, Quaternion.identity, SmallObjectLocations.transform);
-                    sMarker.GetComponent<MarkerScript>().SetPanel(InfoPanel, 0);
+                    sMarker.GetComponent<MarkerScript>().SetPanel(infoPanel, 0);
+                    sMarker.GetComponent<MarkerScript>().SetIndicator(arrow);
                 }
             }
         }
@@ -331,7 +357,8 @@ public class ControllerScript : MonoBehaviour
 
                     Transform eMarker = EnemyMarker;
                     Instantiate(eMarker, ePosition, Quaternion.identity, EnemyLocations.transform);
-                    eMarker.GetComponent<MarkerScript>().SetPanel(InfoPanel, 1);
+                    eMarker.GetComponent<MarkerScript>().SetPanel(infoPanel, 1);
+                    eMarker.GetComponent<MarkerScript>().SetIndicator(arrow);
                 }
             }
         }
@@ -355,7 +382,6 @@ public class ControllerScript : MonoBehaviour
                 siteChosen = true;
 
                 // Place holder goes here
-                //MarkArea(aM, w, h, x, y, 8, 8, -3);
                 aM[y * w + x] = -5;
 
                 Vector3 pPosition = new Vector3(-125 + x, 1 + 25 * (averageHeight * 0.9f), -125 + y);

@@ -9,6 +9,7 @@ TagManager:
   - PositionBox
   - RotationBox
   - ContentsBox
+  - Indicator
   layers:
   - Default
   - TransparentFX

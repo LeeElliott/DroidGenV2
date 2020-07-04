@@ -16,6 +16,7 @@ public class MarkerScript : MonoBehaviour
     public int coin;
     public int itemCount;
     public List<int> contents;
+    public GameObject arrow;
 
 	// Use this for initialization
 	void Start ()
@@ -32,6 +33,10 @@ public class MarkerScript : MonoBehaviour
     private void OnMouseDown()
     {
         InfoPanel.SetActive(true);
+
+        // Highlight object
+        arrow.transform.position = gameObject.transform.position;
+        arrow.SetActive(true);
 
         // Set data in panel
         InfoPanel.transform.GetChild(1).GetComponentInChildren<Text>().text = "Type: " + type + "\n";
@@ -135,5 +140,10 @@ public class MarkerScript : MonoBehaviour
 
                 break;
         }
+    }
+
+    public void SetIndicator(GameObject i)
+    {
+        arrow = i;
     }
 }

@@ -20,10 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4841114458733842}
   - component: {fileID: 33531946910250742}
-  - component: {fileID: 136242332194366176}
   - component: {fileID: 23341559405683642}
   - component: {fileID: 114229366638670724}
   - component: {fileID: 114797725882147018}
+  - component: {fileID: 136360222728527962}
   m_Layer: 0
   m_Name: SmallMarker
   m_TagString: Untagged
@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1453087007108684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 4, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -95,9 +95,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InfoPanel: {fileID: 0}
-  type: Chest
-  coin: 158
-  itemCount: 12
+  type: Enemy Group
+  coin: 0
+  itemCount: 3
+  contents: 030000000200000003000000
 --- !u!114 &114797725882147018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -109,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f706e054aecea224ab00843a6566c048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &136242332194366176
+--- !u!136 &136360222728527962
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -118,7 +119,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
