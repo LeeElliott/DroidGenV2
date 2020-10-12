@@ -132,7 +132,7 @@ public class MarkerScript : MonoBehaviour
                 for (int i = 0; i < itemCount; i++)
                 {
                     // Select type of unit
-                    int unitType = Random.Range(0, 9);
+                    int unitType = Random.Range(0, 10);
 
                     // Not restricted atm
                     contents.Add(unitType);

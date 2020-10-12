@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviour
     private float moveSpeed = 4.0f;
     private float turnSpeed = 2.5f;
     private bool move = true;
+    public GameObject control;
 
     // Use this for initialization
 	void Start()
@@ -68,5 +69,10 @@ public class PlayerScript : MonoBehaviour
             //If the GameObject's name matches the one you suggest, output this message in the console
             move = false;
         }
+    }
+
+    void SetController(GameObject c)
+    {
+        control = c;
     }
 }

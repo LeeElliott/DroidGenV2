@@ -31,6 +31,7 @@ public class ControllerScript : MonoBehaviour
 	void Start()
     {
         ClosePanel();
+
 	}
 	
 	// Update is called once per frame
@@ -395,10 +396,10 @@ public class ControllerScript : MonoBehaviour
                 if (aM[y * w + x] == 1)
                 {
                     // Check if object can fit also using slope
-                    //if (GradientCheck(aM, hM, w, h, x, y, sX, sY, water))
+                    if (GradientCheck(aM, hM, w, h, x, y, sX, sY, water))
                     {
                         Transform lMarker = LargeMarker;
-                        Vector3 lPosition = new Vector3(-125 + x, 6 + 25 * (averageHeight * 0.9f), -125 + y);
+                        Vector3 lPosition = new Vector3(-125 + x, 3 + 25 * hM[y * w + x], -125 + y);
                         lMarker.transform.localScale = new Vector3(sX, 8, sY);
                         Instantiate(lMarker, lPosition, Quaternion.identity, LargeObjectLocations.transform);
                         chosen = true;
@@ -578,6 +579,12 @@ public class ControllerScript : MonoBehaviour
     {
         // Add buffer to object dimensions
         int width = w + 4; int height = h + 4;
+
+        // Check not too close to edge
+        if (x - (width / 2) < 0 || x + (width / 2) > tw || y - (height / 2) < 0 || y - (height / 2) > th)
+        {
+            return false;
+        }
 
         // Double loop to check every pixel the object would occupy
         for (int j = 0; j < h; j++)

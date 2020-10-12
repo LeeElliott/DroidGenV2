@@ -1,4 +1,4 @@
-# DroidGenV2
+# DroidGen
 ## *Android procedural world generation framework.*
 
 ## Contents
@@ -25,13 +25,15 @@
 4.0 Legal
 
 ## 1.0 Overview
-An Android procedural generation framework created using Unity, with C#. This framework has been designed to generate unique 3D worldspace at runtime for use within mobile games.
+An Android procedural generation framework created using Unity, with C#. This framework has been
+designed to generate unique 3D worldspace at runtime for use within mobile games.
 
 ## 2.0 Features
 
 
 ### 2.1 Terrain Displacement
-Although not a true Perlin Noise, the algorithm was created to take in an array of floating-point values and modify them accordingly, using an array of permutation floats as a base 
+Although not a true Perlin Noise, the algorithm was created to take in an array of floating-point
+values and modify them accordingly, using an array of permutation floats as a base 
 value. This algorithm differs from true Perlin, as the permutation array used here is equal in 
 size to the array of values used to map the terrain and is refilled every time the algorithm is 
 run. The implemented algorithm also varies from a true Perlin Noise algorithm, as the 
@@ -62,7 +64,8 @@ It was observed that the boundary marking function produced a vast number of mar
 positions, the number of which could be limited to improve usability. An additional function 
 was added to facilitate with this. This additional function takes in an integer that is used to 
 set the space left between marked array elements. It then iterates through the array to 
-check for marked elements. It then checks for concurrent marked horizontal elements, un-marking them unless they are either the last in the line or the space left has met the 
+check for marked elements. It then checks for concurrent marked horizontal elements, un-marking them 
+unless they are either the last in the line or the space left has met the 
 requirements. This process is repeated for concurrent vertical elements.
 This algorithm was not enabled during testing, as it was deemed too difficult to represent 
 with any clarity in the limited functionality available. This decision was also influenced by the 
@@ -100,15 +103,52 @@ array and do not intersect a small object location, before being marked.
 The water level is calculated to be only a small percentage lower than the height of the playing area.
 
 ### 2.5 User Interface
+The application contains only a rudimentary user interface, as this prototype is intended only to be 
+used to display the capabilities of the generation framework.
+
+#### 2.5.1 Menu System
+The menu system is as simplistic as possible. The application loads straight into the main menu, from 
+which the user is able to choose to access the information screen or the credits screen. Both of these
+screens are designed to only display text, to impart the appropriate information to the user and both 
+of these screens include a button, which allows the user to return to the main menu. The final option 
+available to the user on the main menu screen is a button, which allows access to the worldspace 
+generation scene.
+
+#### 2.5.2 Heads Up Display
+The included HUD is designed solely to improve the ease of use of this application. A mini-map is 
+displayed in the upper right corner, which displays a top-down view of the entire generated 
+worldspace and clearly marks the position of the user within the worldspace. Beneath this mini-map, 
+a panel is displayed, to inform the user regarding several aspects of the generated worldspace, 
+including time taken to generate and the number of each object type created. Also included in the 
+HUD are two buttons, one to trigger the generation process and one that enables the user to return 
+to the main menu. An additional visual tool provided to the user is an information panel, which is 
+displayed when an applicable object is selected via tapping. This panel informs the user of the 
+selected objects type and generated contents.
 
 ### 2.6 Control Methods
+There is one thumbstick implemented within this prototype, which controls both the rotation and 
+movement of the users location within the worldspace.
 
 ### 2.7 Object Contents
+The object contents are generated for each of the enemy locations and small objects. At present, the 
+small objects are all generated as "Chest", and a random integer is generated within a preset range to
+represent the number of items held within the chest. For each of these generated items, a specific item
+type is selected from a loot table CSV. This also utilises the generation of a random integer within a 
+preset range. 
+
+The enemy locations are populated using a random integer that is generated within a preset range to
+represent the number of enemies within the group. For each of these generated enemies, a specific enemy
+type is selected from a CSV file using a generated random integer within a preset range.
+
+Although not a polished sytem, this is easily improved and extended to include variable drop chances for 
+different item rarities.
 
 ## 3.0 Issues
+There is an issue with the water level frequently being too high, requiring regeneration.
 
+The gradient check could use fine tuning.
 
 ## 4.0 Legal
 The code contained within this repository has been written by and remains the property of Lee Elliott.
 
-*Last updated on 16/02/20*
+*Last updated on 12/10/20*
