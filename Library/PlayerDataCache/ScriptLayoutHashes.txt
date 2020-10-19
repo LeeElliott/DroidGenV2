@@ -110,7 +110,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.VR.WSA.SpatialMappingRenderer
 fa654d581fbb91459c52eef171a151b2 Assembly-CSharp.dll:.ControllerScript
-b66fc47796fe674446d2a9af6c5abfdf Assembly-CSharp.dll:.MenuEffectScript
+3740d540cec32a855fced3c97bebfd0a Assembly-CSharp.dll:.MenuEffectScript
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.TerrainScript
 e374bb8897ba2bae7d86662ebcf65b69 Assembly-CSharp.dll:.PlayerScript
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator

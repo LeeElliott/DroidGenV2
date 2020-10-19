@@ -635,4 +635,47 @@ public class ControllerScript : MonoBehaviour
         // Check passed
         return true;
     }
+
+    void GenerateWeather()
+    {
+        System.Random rand = new System.Random();
+
+        int weatherType = rand.Next(0, 8);
+
+        switch (weatherType)
+        {
+            default:
+                // Clear day
+
+                break;
+            case 1:
+                // Clear night
+
+                break;
+            case 2:
+                // Rain day
+
+                break;
+            case 3:
+                // Rain night
+
+                break;
+            case 4:
+                // Snow day
+
+                break;
+            case 5:
+                // Snow night
+
+                break;
+            case 6:
+                // Fog day
+
+                break;
+            case 7:
+                // Fog night
+
+                break;
+        }
+    }
 }
