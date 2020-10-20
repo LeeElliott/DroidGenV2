@@ -98,6 +98,7 @@
     <Compile Include="Assets\Scripts\Main\TerrainScript.cs" />
     <Compile Include="Assets\Scripts\Menu\ButtonScript.cs" />
     <Compile Include="Assets\Scripts\Menu\MenuEffectScript.cs" />
+    <Compile Include="Assets\Scripts\ShadedWireFrame.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Highlight.shader" />
